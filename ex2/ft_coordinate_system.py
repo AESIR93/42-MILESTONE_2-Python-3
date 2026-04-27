@@ -1,26 +1,29 @@
 import math
 
 
+def parse_coords(raw: str) -> tuple[float, ...] | None:
+    args = raw.split(",")
+    if len(args) != 3:
+        print("Invalid syntax")
+        return None
+    result: tuple[float, ...] = ()
+    i = 0
+    while i < len(args):
+        try:
+            result = result + (float(args[i]),)
+        except ValueError as e:
+            print(f"Error on parameter '{args[i].strip()}': {e}")
+            return None
+        i += 1
+    return result
+
+
 def get_player_pos() -> tuple[float, ...]:
-    while True:
-        raw = input("Enter new coordinates as floats in format 'x,y,z': ")
-        args = raw.split(",")
-        if len(args) != 3:
-            print("Invalid syntax")
-            continue
-        result: tuple[float, ...] = ()
-        valid = True
-        i = 0
-        while i < len(args):
-            try:
-                result = result + (float(args[i]),)
-            except ValueError as e:
-                print(f"Error on parameter '{args[i].strip()}': {e}")
-                valid = False
-                break
-            i += 1
-        if valid and len(result) == 3:
-            return result
+    coords = None
+    while coords is None:
+        coords = parse_coords(input("Enter new coordinates as"
+                                    " floats in format 'x,y,z': "))
+    return coords
 
 
 def get_distance(pos1: tuple[float, ...], pos2: tuple[float, ...]) -> float:
