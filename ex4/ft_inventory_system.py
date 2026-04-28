@@ -20,6 +20,9 @@ def parse_input(my_dict: dict[str, int]) -> None:
 
 
 def show_stats(my_dict: dict[str, int]) -> None:
+    if len(my_dict) == 0:
+        print("No items in inventory")
+        return
     keys = list(my_dict.keys())
     values = list(my_dict.values())
     print(f"Got inventory: {my_dict}")
@@ -29,9 +32,10 @@ def show_stats(my_dict: dict[str, int]) -> None:
     percent: list[float] = [0.0] * len(keys)
     max_idx = 0
     min_idx = 0
+    total = sum(values)
     i = 0
     while i < len(keys):
-        percent[i] = round((values[i]/sum(values)*100), 1)
+        percent[i] = round((values[i]/total*100), 1)
         print(f"Item {keys[i]} represents {percent[i]}%")
         if percent[i] > percent[max_idx]:
             max_idx = i
